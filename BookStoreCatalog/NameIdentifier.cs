@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents an International Standard Name Identifier (ISNI).
     /// </summary>
-    // TODO Add class declaration.
+    public class NameIdentifier
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NameIdentifier"/> class with the specified 16-digit ISNI <paramref name="isniCode"/>.
@@ -11,25 +11,29 @@
         /// <param name="isniCode">A 16-digit ISNI code.</param>
         /// <exception cref="ArgumentNullException">a code argument is null.</exception>
         /// <exception cref="ArgumentException">a code argument is invalid.</exception>
-        // TODO Add constructor.
+        public NameIdentifier(string isniCode)
+        {
+            _ = isniCode ?? throw new ArgumentNullException(nameof(isniCode), "a code argument is null.");
+            this.Code = ValidateCode(isniCode) ? isniCode : throw new ArgumentException("A code argument is invalid.", nameof(isniCode));
+        }
 
         /// <summary>
         /// Gets a 16-digit ISNI code.
         /// </summary>
-        // TODO Add property.
+        public string Code { get; init; }
 
         /// <summary>
         /// Gets a <see cref="Uri"/> to the contributor's page at the isni.org website.
         /// </summary>
         /// <returns>A <see cref="Uri"/> to the contributor's page at the isni.org website.</returns>
-        // TODO Add method.
+        public Uri GetUri() => new Uri($"http://www.isni.org/isni/{this.Code}");
 
         /// <summary>
         /// Returns the string that represents a current object.
         /// </summary>
         /// <returns>A string that represents the current object.</returns>
-        // TODO Add method.
+        public new string ToString() => this.Code;
 
-        // TODO Add method.
+        private static bool ValidateCode(string isniCode) => !string.IsNullOrWhiteSpace(isniCode) && (isniCode.Length == 16 && isniCode.All(term => char.IsLetterOrDigit(term) || term == 'X'));
     }
 }
